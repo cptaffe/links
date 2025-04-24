@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: links
+  name: links
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: links
+  template:
+    metadata:
+      labels:
+        app: links
+    spec:
+      containers:
+      - name: links
+        image: us-south1-docker.pkg.dev/homelab-388417/homelab/links:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: web
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /
+            port: web
+        readinessProbe:
+          httpGet:
+            path: /
+            port: web
+      imagePullSecrets:
+      - name: regcred
