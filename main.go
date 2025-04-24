@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"flag"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -48,6 +49,10 @@ type Server struct {
 func NewServer(links *Links) http.Handler {
 	mux := http.NewServeMux()
 	mux.Handle("GET /l/{short}", &Server{links: links})
+	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Add("Content-Type", "text/plain; charset=utf-8")
+		fmt.Fprint(w, "ok")
+	})
 	return mux
 }
 
