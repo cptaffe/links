@@ -5,7 +5,14 @@ tag=$(git rev-parse --short HEAD)
 image="us-south1-docker.pkg.dev/homelab-388417/homelab/links"
 
 # Build image
-docker buildx build --platform linux/amd64 --progress=plain . --tag "$image:$tag"
+# Forward 1Password's ssh key agent, docker doesn't read IdentityAgent from ~/.ssh/config
+export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+docker buildx build \
+    --ssh default \
+    --platform linux/amd64 \
+    --progress=plain \
+    --tag "$image:$tag" \
+    .
 docker tag "$image:$tag" "$image:latest"
 docker push --quiet "$image:$tag"
 docker push --quiet "$image:latest"

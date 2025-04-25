@@ -1,14 +1,23 @@
 FROM golang:1.24.2-alpine3.21
 
+RUN apk add --no-cache \
+    git \
+    openssh \
+    && mkdir $HOME/.ssh \
+    && chmod 600 $HOME/.ssh \
+    && printf 'Host github.com\n\tStrictHostKeyChecking no\n' >$HOME/.ssh/config \
+    && printf '[url "ssh://git@github.com/"]\n\tinsteadOf = https://github.com/\n' >$HOME/.gitconfig
+
 WORKDIR /usr/src/links
 
 # pre-copy/cache go.mod for pre-downloading dependencies and only redownloading them in subsequent builds if they change
+ENV GOPRIVATE=github.com/cptaffe
 COPY go.mod go.sum ./
-RUN go mod download && go mod verify
+RUN --mount=type=ssh go mod download && go mod verify
 
 COPY main.go .
 RUN go build -v -o /usr/local/bin/links .
 
 COPY . .
 
-CMD ["/usr/local/bin/links", "--links=/usr/src/links/links.json"]
+CMD ["/usr/local/bin/links", "--links=/usr/src/links/links.json", "--templates=/usr/src/links/templates"]

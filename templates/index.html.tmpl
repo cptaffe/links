@@ -1,0 +1,50 @@
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xml:lang="en"
+    prefix="og: https://ogp.me/ns#">
+    <head profile="http://www.w3.org/2005/10/profile">
+        <title>connor.zip/l/</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Link shortener" />
+
+        <!-- Open Graph -->
+        <meta property="og:title" content="connor.zip/l/" />
+        <meta property="og:description" content="Link shortener" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://connor.zip/l/" />
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:site_name" content="connor.zip" />
+
+        <link rel="stylesheet" type="text/css;charset=UTF-8" href="/resources/style/style.css" />
+        <link rel="icon" type="image/png" href="/resources/images/turtle.png" />
+        <link rel="sitemap" type="application/xml;charset=UTF-8" href="/sitemap" />
+        <link rel="canonical" href="https://connor.zip/l/" />
+
+        <script async="async" data-domain="connor.zip" src="https://plausible.connor.zip/js/script.js"></script>
+    </head>
+    <body>
+        <header>
+            <div class="container">
+                <h1>Index</h1>
+
+                <p>Short links to be elongated.</p>
+            </div>
+        </header>
+        <nav class="crumbs">
+            <ol>
+                <li class="crumb"><a href="/">connor.zip</a></li>
+                <li class="crumb">/l/</li>
+            </ol>
+        </nav>
+        <main class="container">
+            <nav>
+                <ol>
+                {{ range .Links }}
+                    <li><a href="/l/{{.Short}}">{{ .Short }}</a></li>
+                {{ end }}
+                </ol>
+            </nav>
+        </main>
+    </body>
+</html>
